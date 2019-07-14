@@ -1,221 +1,215 @@
-import React from "react"
-import {
-    Form,
-    InputNumber,
-    Button,
-    DatePicker,
-    Select
-  } from 'antd';
-import Axios from "axios";
-  
-const { Option } = Select
-  
-  class Professore extends React.Component {
-    state = {
-      confirmDirty: false,
-      autoCompleteResult: []
-    }
+import React from 'react';
+import { Form, InputNumber, Button, DatePicker, Select } from 'antd';
+import Axios from 'axios';
 
-    constructor(props) {
-      super(props)
-  
-      this.state = {
-          data: [],
-          selectedCorso: null,
-          selectedStud : null,
-          studenti: [],
-          voto: '',
-          giorno: null
-      }
-      this.handleDataChange = this.handleDataChange.bind(this)
-  }
+const { Option } = Select;
 
-  componentDidMount(){    
-      this.getEsami()
-      this.getStudenti()
-  }
+class Professore extends React.Component {
+	state = {
+		confirmDirty: false,
+		autoCompleteResult: []
+	};
 
-  postVoto(){
-    const corso = this.state.selectedCorso
-    const matricola = this.state.selectedStud
-    const voto = this.state.voto
-    const giorno = this.state.giorno
+	constructor(props) {
+		super(props);
 
-    Axios.post("http://localhost:3001/esami/nuovo",{corso,matricola,voto,giorno})
-    .then(res => {
-      alert("Voto inserito con successo!")
-      this.setState({selectedStud:null})
-      console.log(this.state.selectedStud)
-    })
-    .catch(err => console.log(err))
-  }
+		this.state = {
+			data: [],
+			selectedCorso: null,
+			selectedStud: null,
+			studenti: [],
+			voto: '',
+			giorno: null
+		};
+		this.handleDataChange = this.handleDataChange.bind(this);
+	}
 
-  getEsami(){
-    const {id} = this.props.utente
-    Axios.get("http://localhost:3001/corsi/"+ id)
-    .then(res => this.setState({data: res.data}))   
-  }
-  getStudenti(){
-    const {id} = this.props.utente
-    Axios.get("http://localhost:3001/studenti")
-    .then(res => this.setState({studenti: res.data}))
-    .catch( err => console.log(err))    
-  }
+	componentDidMount() {
+		this.getEsami();
+		this.getStudenti();
+	}
 
-  validateVoto(voto) {
-    if (voto >= 18 && voto <= 30) {
-      this.setState({voto})
-      return {
-        validateStatus: 'success',
-        errorMsg: null,
-      }
-    }
-    return {
-      validateStatus: 'error',
-      errorMsg: 'Inserisci un Voto corretto!',
-    }
-  }
-  
-    handleNumberChange = value => {
-      this.setState({
-        voto: this.validateVoto(value)
-      })
-    }
-    
-    handleDataChange(date, giorno){
-      this.setState({giorno})
-    }
+	postVoto() {
+		const corso = this.state.selectedCorso;
+		const matricola = this.state.selectedStud;
+		const voto = this.state.voto;
+		const giorno = this.state.giorno;
 
-    handleInserisciVoto = () => {
-      if( this.state.selectedCorso &&
-          this.state.selectedStud &&
-          this.state.voto &&
-          this.state.giorno){
-            this.postVoto()
-          }
-    }
+		Axios.post('http://localhost:3001/esami/nuovo', { corso, matricola, voto, giorno })
+			.then((res) => {
+				alert('Voto inserito con successo!');
+				this.setState({ selectedStud: null });
+				console.log(this.state.selectedStud);
+			})
+			.catch((err) => console.log(err));
+	}
 
-    handleSubmit = e => {
-      e.preventDefault()
-      this.props.form.validateFieldsAndScroll((err, values) => {
-        if (!err) {
-          console.log('Received values of form: ', values)
-        }
-      })
-    }
-  
-    handleConfirmBlur = e => {
-      const { value } = e.target
-      this.setState({ confirmDirty: this.state.confirmDirty || !!value })
-    }
+	getEsami() {
+		const { id } = this.props.utente;
+		Axios.get('http://localhost:3001/corsi/' + id).then((res) => this.setState({ data: res.data }));
+	}
+	getStudenti() {
+		const { id } = this.props.utente;
+		Axios.get('http://localhost:3001/studenti')
+			.then((res) => this.setState({ studenti: res.data }))
+			.catch((err) => console.log(err));
+	}
 
-    
-    menuCorsi(){
-      return this.state.data.map( (item,key) =>(<Option key={key} value={item.id_corso}>{item.nome}</Option>))
-    }
+	validateVoto(voto) {
+		if (voto >= 18 && voto <= 30) {
+			this.setState({ voto });
+			return {
+				validateStatus: 'success',
+				errorMsg: null
+			};
+		}
+		return {
+			validateStatus: 'error',
+			errorMsg: 'Inserisci un Voto corretto!'
+		};
+	}
 
-    menuStudenti(){
-      return this.state.studenti.map( (item,key) =>(<Option key={key} value={item.matricola}>{item.matricola}</Option>))
-    }
+	handleNumberChange = (value) => {
+		this.setState({
+			voto: this.validateVoto(value)
+		});
+	};
 
-    render() {
-      const { getFieldDecorator } = this.props.form
-      const { voto } = this.state
-      const formItemLayout = {
-        labelCol: { span: 7 },
-        wrapperCol: { span: 12 },
-        labelCol: {
-          xs: { span: 24 },
-          sm: { span: 8 },
-        },
-        wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 8 },
-        },
-      }
-      const tailFormItemLayout = {
-        wrapperCol: {
-          xs: {
-            span: 24,
-            offset: 0,
-          },
-          sm: {
-            span: 16,
-            offset: 8,
-          },
-        },
-      }
-      const config = {
-        rules: [{ type: 'object', required: true, message: 'Inserisci la Data!' }],
-      }
+	handleDataChange(date, giorno) {
+		this.setState({ giorno });
+	}
 
-      return (
+	handleInserisciVoto = () => {
+		if (this.state.selectedCorso && this.state.selectedStud && this.state.voto && this.state.giorno) {
+			this.postVoto();
+		}
+	};
 
-        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-          <Form.Item label="Corso">
-            {getFieldDecorator('corso', {
-              rules: [
-                { type: 'string', required: true, message: 'Inserisci il nome del Corso!' },
-              ],
-            })(<Select
-              style={{ width: 200 }}
-              placeholder="Seleziona un corso"
-              onSelect={selectedCorso => {this.setState({selectedCorso})}}
-              setFieldValue={this.state.selectedStud}
-              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0 }
-            >
-            {this.menuCorsi()}
-          </Select>)}
-          </Form.Item>
-          
-        <Form.Item label="Studente">
-          {getFieldDecorator('studente', {
-            rules: [
-              { type: 'integer', required: true, message: 'Inserisci lo Studente!' },
-            ],
-          })(<Select
-              style={{ width: 200 }}
-              placeholder="Seleziona uno studente"
-              onSelect={selectedStud => {this.setState({selectedStud})}}
-              setFieldValue={this.state.selectedStud}
-              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0 }
-            >
-            {this.menuStudenti()}
-          </Select>)}
-          </Form.Item>
-        
-          <Form.Item
-            {...formItemLayout}
-            required = "true"
-            label="Voto"
-            validateStatus={voto.validateStatus}
-            help={voto.errorMsg}
-          >
-            <InputNumber 
-              min={18} 
-              max={30} 
-              onChange={value => this.setState({voto: value})} 
-            />
-          </Form.Item>
-          
-        <Form.Item label="Data">
-          {getFieldDecorator('date-picker', config)(
-            <DatePicker
-              setValue ={this.state.giorno}
-              onChange={this.handleDataChange} />)}
-        </Form.Item>
+	handleSubmit = (e) => {
+		e.preventDefault();
+		this.props.form.validateFieldsAndScroll((err, values) => {
+			if (!err) {
+				console.log('Received values of form: ', values);
+			}
+		});
+	};
 
-        <Form.Item {...tailFormItemLayout}>
-          <Button 
-            type="primary" 
-            htmlType="submit"
-            onClick={this.handleInserisciVoto}>
-            Inserisci Voto
-          </Button>
-        </Form.Item>
-        </Form>
-      );
-    }
-  }
+	handleConfirmBlur = (e) => {
+		const { value } = e.target;
+		this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+	};
 
-  export default Form.create() (Professore)
+	menuCorsi() {
+		return this.state.data.map((item, key) => (
+			<Option key={key} value={item.id_corso}>
+				{item.nome}
+			</Option>
+		));
+	}
+
+	menuStudenti() {
+		return this.state.studenti.map((item, key) => (
+			<Option key={key} value={item.matricola}>
+				{item.matricola}
+			</Option>
+		));
+	}
+
+	render() {
+		const { getFieldDecorator } = this.props.form;
+		const { voto } = this.state;
+		const formItemLayout = {
+			labelCol: { span: 7 },
+			wrapperCol: { span: 12 },
+			labelCol: {
+				xs: { span: 24 },
+				sm: { span: 8 }
+			},
+			wrapperCol: {
+				xs: { span: 24 },
+				sm: { span: 8 }
+			}
+		};
+		const tailFormItemLayout = {
+			wrapperCol: {
+				xs: {
+					span: 24,
+					offset: 0
+				},
+				sm: {
+					span: 16,
+					offset: 8
+				}
+			}
+		};
+		const config = {
+			rules: [ { type: 'object', required: true, message: 'Inserisci la Data!' } ]
+		};
+
+		return (
+			<Form {...formItemLayout} onSubmit={this.handleSubmit}>
+				<Form.Item label="Corso">
+					{getFieldDecorator('corso', {
+						rules: [ { type: 'string', required: true, message: 'Inserisci il nome del Corso!' } ]
+					})(
+						<Select
+							style={{ width: 200 }}
+							placeholder="Seleziona un corso"
+							onSelect={(selectedCorso) => {
+								this.setState({ selectedCorso });
+							}}
+							setFieldValue={this.state.selectedStud}
+							filterOption={(input, option) =>
+								option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+						>
+							{this.menuCorsi()}
+						</Select>
+					)}
+				</Form.Item>
+
+				<Form.Item label="Studente">
+					{getFieldDecorator('studente', {
+						rules: [ { type: 'integer', required: true, message: 'Inserisci lo Studente!' } ]
+					})(
+						<Select
+							style={{ width: 200 }}
+							placeholder="Seleziona uno studente"
+							onSelect={(selectedStud) => {
+								this.setState({ selectedStud });
+							}}
+							setFieldValue={this.state.selectedStud}
+							filterOption={(input, option) =>
+								option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+						>
+							{this.menuStudenti()}
+						</Select>
+					)}
+				</Form.Item>
+
+				<Form.Item
+					{...formItemLayout}
+					required="true"
+					label="Voto"
+					validateStatus={voto.validateStatus}
+					help={voto.errorMsg}
+				>
+					<InputNumber min={18} max={30} onChange={(value) => this.setState({ voto: value })} />
+				</Form.Item>
+
+				<Form.Item label="Data">
+					{getFieldDecorator('date-picker', config)(
+						<DatePicker setValue={this.state.giorno} onChange={this.handleDataChange} />
+					)}
+				</Form.Item>
+
+				<Form.Item {...tailFormItemLayout}>
+					<Button type="primary" htmlType="submit" onClick={this.handleInserisciVoto}>
+						Inserisci Voto
+					</Button>
+				</Form.Item>
+			</Form>
+		);
+	}
+}
+
+export default Form.create()(Professore);

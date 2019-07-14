@@ -1,21 +1,21 @@
 div.logo {
-    width: 120px;
-    height: 31px;
-    background: rgba(255, 255, 255, 0.2);
-    margin: 16px 24px 16px 0;
-    float: left;
+	width: 120px;
+	height: 31px;
+	background: rgba(255, 255, 255, 0.2);
+	margin: 16px 24px 16px 0;
+	float: left;
 }
 
 div.title {
-    float: left;
-    color: white;
-    font-size: 15pt;
+	float: left;
+	color: white;
+	font-size: 15pt;
 }
 
 form.login-form {
-    max-width: 300px;
+	max-width: 300px;
 }
 
 button.login-form-button {
-    width: 100%;
+	width: 100%;
 }
