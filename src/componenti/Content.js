@@ -1,13 +1,15 @@
-import React from 'react';
-import Login from './Login';
-import Register from './Register';
-import Professore from './Professore';
-import Studente from './Studente';
-import './Components.css';
-import { Layout, Breadcrumb } from 'antd';
+import React from 'react'
+import Login from './Login'
+import Register from './Register'
+import Professore from './Professore'
+import Studente from './Studente'
+import logo from '../img/logo.png'
+import './Components.css'
+import { Layout, Breadcrumb } from 'antd'
 
-const { Content } = Layout;
+const { Content } = Layout
 
+// componente che gestisce quale pagina visualizzare tramite props.stato
 class ContentComponent extends React.Component {
 	render() {
 		if (this.props.stato === 'login') {
@@ -19,11 +21,16 @@ class ContentComponent extends React.Component {
 							<Breadcrumb.Item>Login</Breadcrumb.Item>
 						</Breadcrumb>
 						<div style={{ background: '#fff', padding: 24, minHeight: 380 }}>
-							<Login onLoginExecuted={this.props.onLoginExecuted} />
+							<div style={{ float: 'left', margin: '2%' }}>
+								<Login onLoginExecuted={this.props.onLoginExecuted} />
+							</div>
+							<div style={{ width: '25%', marginRight: '20pt', float: 'right' }}>
+								<img src={logo} alt="" style={{ width: '100%', float: 'right' }} />
+							</div>
 						</div>
 					</Content>
 				</Layout>
-			);
+			)
 		} else if (this.props.stato === 'register') {
 			return (
 				<Layout>
@@ -37,7 +44,7 @@ class ContentComponent extends React.Component {
 						</div>
 					</Content>
 				</Layout>
-			);
+			)
 		} else if (this.props.stato === 'studente') {
 			return (
 				<Layout>
@@ -51,7 +58,7 @@ class ContentComponent extends React.Component {
 						</div>
 					</Content>
 				</Layout>
-			);
+			)
 		} else if (this.props.stato === 'professore') {
 			return (
 				<Layout>
@@ -65,11 +72,11 @@ class ContentComponent extends React.Component {
 						</div>
 					</Content>
 				</Layout>
-			);
+			)
 		} else {
-			return <div>Errore Caricamento Pagina</div>;
+			return <div>Errore Caricamento Pagina</div>
 		}
 	}
 }
 
-export default ContentComponent;
+export default ContentComponent

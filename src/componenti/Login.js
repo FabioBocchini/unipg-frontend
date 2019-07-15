@@ -1,50 +1,51 @@
-import React, { Component } from 'react';
-import Axios from 'axios';
-import './Components.css';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import React, { Component } from 'react'
+import Axios from 'axios'
+import './Components.css'
+import { Form, Icon, Input, Button, Checkbox } from 'antd'
 
 class LoginComponent extends Component {
 	constructor(props) {
-		super(props);
+		super(props)
 
 		this.state = {
 			email: '',
 			password: '',
 			profCheck: false
-		};
+		}
 
-		this.handleLoginClick = this.handleLoginClick.bind(this);
-		this.handleRegisterClick = this.handleRegisterClick.bind(this);
+		this.handleLoginClick = this.handleLoginClick.bind(this)
+		this.handleRegisterClick = this.handleRegisterClick.bind(this)
 	}
 
+	// controllo se l' email è presente nel database e se la password coincide
 	checkLoginInfoStudente(email, password) {
 		Axios.post('http://localhost:3001/studenti/login', { email, password })
 			.then((res) => {
-				this.props.onLoginExecuted(res.data, 'studente');
+				this.props.onLoginExecuted(res.data, 'studente')
 			})
-			.catch((error) => alert('Email o Password Errata!'));
+			.catch((error) => alert('Email o Password Errata!'))
 	}
 
 	checkLoginInfoProfessore(email, password) {
 		Axios.post('http://localhost:3001/professori/login', { email, password })
 			.then((res) => {
-				console.log(res.data);
-				this.props.onLoginExecuted(res.data, 'professore');
+				console.log(res.data)
+				this.props.onLoginExecuted(res.data, 'professore')
 			})
-			.catch((error) => console.log(error));
+			.catch((error) => alert('Email o Password Errata!'))
 	}
 
 	handleLoginClick() {
-		if (this.state.profCheck === false) this.checkLoginInfoStudente(this.state.email, this.state.password);
-		else this.checkLoginInfoProfessore(this.state.email, this.state.password);
+		if (this.state.profCheck === false) this.checkLoginInfoStudente(this.state.email, this.state.password)
+		else this.checkLoginInfoProfessore(this.state.email, this.state.password)
 	}
 
 	handleRegisterClick() {
-		this.props.onLoginExecuted(null, 'register');
+		this.props.onLoginExecuted(null, 'register')
 	}
 
 	render() {
-		const { getFieldDecorator } = this.props.form;
+		const { getFieldDecorator } = this.props.form
 		return (
 			<Form onSubmit={this.handleSubmit} className="login-form">
 				<Form.Item>
@@ -71,16 +72,12 @@ class LoginComponent extends Component {
 					)}
 				</Form.Item>
 				<Form.Item>
-					{getFieldDecorator('remember', {
-						valuePropName: 'checked',
-						initialValue: true
-					})(<Checkbox>Ricordami</Checkbox>)}
 					<Checkbox
 						checked={this.state.profCheck}
 						onChange={(e) => {
-							this.setState({ profCheck: e.target.checked });
+							this.setState({ profCheck: e.target.checked })
 						}}
-						style={{ float: 'right' }}
+						style={{ float: 'left' }}
 					>
 						Login come Professore
 					</Checkbox>
@@ -92,11 +89,14 @@ class LoginComponent extends Component {
 					>
 						Log in
 					</Button>
-					Oppure <a onClick={this.handleRegisterClick}>registrati adesso!</a>
+					Oppure{' '}
+					<Button type="link" onClick={this.handleRegisterClick}>
+						registrati adesso!
+					</Button>
 				</Form.Item>
 			</Form>
-		);
+		)
 	}
 }
 
-export default Form.create()(LoginComponent);
+export default Form.create()(LoginComponent)

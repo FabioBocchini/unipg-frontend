@@ -1,28 +1,29 @@
-import React from 'react';
-import Header from './Header';
-import Content from './Content';
-import Footer from './Footer';
-import './Components.css';
-import { Layout } from 'antd';
+import React from 'react'
+import Header from './Header'
+import Content from './Content'
+import Footer from './Footer'
+import './Components.css'
+import { Layout } from 'antd'
 
+// componente di collegamento tra header,content,footer e app
 class LayoutComponent extends React.Component {
 	constructor(props) {
-		super(props);
+		super(props)
 
 		this.state = {
 			stato: 'login',
 			utente: null
-		};
-		this.onLoginExecuted = this.onLoginExecuted.bind(this);
-		this.onHomeClick = this.onHomeClick.bind(this);
+		}
+		this.onLoginExecuted = this.onLoginExecuted.bind(this)
+		this.onHomeClick = this.onHomeClick.bind(this)
 	}
 
 	onLoginExecuted(utente, stato) {
-		this.setState({ stato, utente });
+		this.setState({ stato, utente })
 	}
 
 	onHomeClick() {
-		this.setState({ stato: 'login' });
+		this.setState({ stato: 'login' })
 	}
 
 	render() {
@@ -32,8 +33,8 @@ class LayoutComponent extends React.Component {
 				<Content onLoginExecuted={this.onLoginExecuted} stato={this.state.stato} utente={this.state.utente} />
 				<Footer />
 			</Layout>
-		);
+		)
 	}
 }
 
-export default LayoutComponent;
+export default LayoutComponent

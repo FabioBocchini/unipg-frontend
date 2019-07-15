@@ -1,9 +1,13 @@
 div.logo {
 	width: 120px;
 	height: 31px;
-	background: rgba(255, 255, 255, 0.2);
-	margin: 16px 24px 16px 0;
 	float: left;
+	font-size: 23pt;
+	font-weight: 800;
+	color: red;
+	border-color: white;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: white;
 }
 
 div.title {

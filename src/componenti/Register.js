@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Form, Input, Checkbox, Button } from 'antd';
-import Axios from 'axios';
+import React, { Component } from 'react'
+import { Form, Input, Checkbox, Button } from 'antd'
+import Axios from 'axios'
 
 class Register extends Component {
 	state = {
@@ -11,63 +11,65 @@ class Register extends Component {
 
 		cognome: '',
 		password: ''
-	};
-
-	postStudente() {
-		const { matricola } = this.state;
-		const { nome } = this.state;
-		const { cognome } = this.state;
-		const { email } = this.state;
-		const { password } = this.state;
-
-		Axios.post('http://localhost:3001/studenti/nuovo', { matricola, nome, cognome, email, password });
-		this.props.onLoginExecuted(this.state, 'studente');
 	}
 
+	// inserisco il nuovo studente nel database
+	postStudente() {
+		const { matricola } = this.state
+		const { nome } = this.state
+		const { cognome } = this.state
+		const { email } = this.state
+		const { password } = this.state
+
+		Axios.post('http://localhost:3001/studenti/nuovo', { matricola, nome, cognome, email, password })
+		this.props.onLoginExecuted(this.state, 'studente')
+	}
+
+	//controllo se l'email è già presente nel database
 	checkExisting() {
-		const { email } = this.state;
-		const { matricola } = this.state;
+		const { email } = this.state
+		const { matricola } = this.state
 		Axios.post('http://localhost:3001/studenti/email', { email, matricola })
 			.then((res) => {
-				this.postStudente();
+				this.postStudente()
 			})
-			.catch((error) => alert('Email o Matricola già esistenti!'));
+			.catch((error) => alert('Email o Matricola già esistenti!'))
 	}
 
 	handleSubmit = (e) => {
-		e.preventDefault();
+		e.preventDefault()
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
-				if (values.agreement) this.checkExisting();
-				else alert('Accetta i Termini prima di roseguire');
+				if (values.agreement) this.checkExisting()
+				else alert('Accetta i Termini prima di roseguire')
 			}
-		});
-	};
+		})
+	}
 
 	handleConfirmBlur = (e) => {
-		const { value } = e.target;
-		this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-	};
+		const { value } = e.target
+		this.setState({ confirmDirty: this.state.confirmDirty || !!value })
+	}
 
 	compareToFirstPassword = (rule, value, callback) => {
-		const { form } = this.props;
+		const { form } = this.props
 		if (value && value !== form.getFieldValue('password')) {
-			callback('Le due Password non coincidono!');
+			callback('Le due Password non coincidono!')
 		} else {
-			callback();
+			callback()
 		}
-	};
+	}
 
 	validateToNextPassword = (rule, value, callback) => {
-		const { form } = this.props;
+		const { form } = this.props
 		if (value && this.state.confirmDirty) {
-			form.validateFields([ 'confirm' ], { force: true });
+			form.validateFields([ 'confirm' ], { force: true })
 		}
-		callback();
-	};
+		callback()
+	}
 
 	render() {
-		const { getFieldDecorator } = this.props.form;
+		const { getFieldDecorator } = this.props.form
 
 		const formItemLayout = {
 			labelCol: {
@@ -78,7 +80,7 @@ class Register extends Component {
 				xs: { span: 24 },
 				sm: { span: 8 }
 			}
-		};
+		}
 		const tailFormItemLayout = {
 			wrapperCol: {
 				xs: {
@@ -90,7 +92,7 @@ class Register extends Component {
 					offset: 8
 				}
 			}
-		};
+		}
 
 		return (
 			<Form {...formItemLayout} onSubmit={this.handleSubmit}>
@@ -162,7 +164,11 @@ class Register extends Component {
 					})(
 						<Checkbox>
 							Ho letto i{' '}
-							<a href="https://policies.google.com/terms?hl=en-US" target="_blank">
+							<a
+								href="https://policies.google.com/terms?hl=en-US"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
 								Termini e Condizioni
 							</a>
 						</Checkbox>
@@ -174,8 +180,8 @@ class Register extends Component {
 					</Button>
 				</Form.Item>
 			</Form>
-		);
+		)
 	}
 }
 
-export default Form.create()(Register);
+export default Form.create()(Register)
