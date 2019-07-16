@@ -1,7 +1,8 @@
 import React from 'react'
-import { Table, Divider, Button } from 'antd'
+import { Table, Divider } from 'antd'
 import Axios from 'axios'
 import moment from 'moment'
+import { Button } from 'antd'
 
 const { Column } = Table
 
@@ -10,7 +11,8 @@ class Studente extends React.Component {
 		super(props)
 
 		this.state = {
-			data: null
+			data: null,
+			token: null
 		}
 	}
 
@@ -21,27 +23,37 @@ class Studente extends React.Component {
 	// prendo dal database la lista degli esami della matricola che ha effettuato il login
 	getEsami() {
 		const { matricola } = this.props.utente
-
-		Axios.get('http://localhost:3001/studenti/esami/' + matricola, {})
+		const token = this.props.token
+		console.log(token)
+		Axios.get('http://localhost:3001/studenti/esami/' + matricola, {
+			headers: { Authorization: 'Bearer ' + token }
+		})
 			.then((res) => this.setState({ data: res.data }))
 			.catch((err) => console.log(err))
 	}
 
 	// modifico l'esame nel database mettendo lo stato ad 'Accettato
 	accettaEsame(corso) {
-		const val = {
+		const token = this.props.token
+		const data = {
 			matricola: this.props.utente.matricola,
 			corso: corso
 		}
-		Axios.put('http://localhost:3001/studenti/esami/', val)
+		const config = {
+			headers: { Authorization: 'bearer ' + token }
+		}
+		Axios.put('http://localhost:3001/studenti/esami/', data, config)
 			.then((res) => this.getEsami())
 			.catch((err) => console.log(err))
 	}
 
 	// rifiuto l'esame e quindi elimino la riga dal database
 	rifiutaEsame(corso) {
+		const token = this.props.token
 		const { matricola } = this.props.utente
-		Axios.delete('http://localhost:3001/studenti/esami/' + corso + '/' + matricola, {})
+		Axios.delete('http://localhost:3001/studenti/esami/' + corso + '/' + matricola, {
+			headers: { Authorization: 'Bearer ' + token }
+		})
 			.then((res) => this.getEsami())
 			.catch((err) => console.log(err))
 	}

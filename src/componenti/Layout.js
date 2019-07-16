@@ -12,14 +12,15 @@ class LayoutComponent extends React.Component {
 
 		this.state = {
 			stato: 'login',
-			utente: null
+			utente: null,
+			token: null
 		}
 		this.onLoginExecuted = this.onLoginExecuted.bind(this)
 		this.onHomeClick = this.onHomeClick.bind(this)
 	}
 
-	onLoginExecuted(utente, stato) {
-		this.setState({ stato, utente })
+	onLoginExecuted(utente, stato, token) {
+		this.setState({ stato, utente, token })
 	}
 
 	onHomeClick() {
@@ -30,7 +31,12 @@ class LayoutComponent extends React.Component {
 		return (
 			<Layout style={{ height: '100vh' }}>
 				<Header onHomeClick={this.onHomeClick} utente={this.state.utente} />
-				<Content onLoginExecuted={this.onLoginExecuted} stato={this.state.stato} utente={this.state.utente} />
+				<Content
+					onLoginExecuted={this.onLoginExecuted}
+					stato={this.state.stato}
+					utente={this.state.utente}
+					token={this.state.token}
+				/>
 				<Footer />
 			</Layout>
 		)

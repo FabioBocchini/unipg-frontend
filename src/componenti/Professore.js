@@ -22,45 +22,55 @@ class Professore extends React.Component {
 			loading: false
 		}
 		this.handleDataChange = this.handleDataChange.bind(this)
+		this.handleSubmit = this.handleSubmit.bind(this)
 	}
 
 	componentDidMount() {
+		console.log('prof' + this.props.token)
 		this.getEsami()
 		this.getStudenti()
 	}
 
 	// inserisco il voto nel database, nella tabella 'esame'
 	postVoto() {
-		const corso = this.state.selectedCorso
-		const matricola = this.state.selectedStud
-		const voto = this.state.voto
-		const giorno = this.state.giorno
-
-		Axios.post('http://localhost:3001/esami/nuovo', {
-			corso,
-			matricola,
-			voto,
-			giorno
-		})
+		const token = this.props.token
+		const data = {
+			corso: this.state.selectedCorso,
+			matricola: this.state.selectedStud,
+			voto: this.state.voto,
+			giorno: this.state.giorno
+		}
+		const config = {
+			headers: { Authorization: 'bearer ' + token }
+		}
+		Axios.post('http://localhost:3001/esami/nuovo', data, config)
 			.then((res) => {
 				alert('Voto inserito con successo!')
+				this.setState({ loading: false })
 			})
 			.catch((err) => {
 				console.log(err)
 				alert('Esame già presente')
-			})
-			.finally(() => {
 				this.setState({ loading: false })
 			})
 	}
 
 	// cerco la lista degli esami e degli studenti nel database per mostrarli nei menù
 	getEsami() {
+		const token = this.props.token
 		const { id } = this.props.utente
-		Axios.get('http://localhost:3001/corsi/' + id, {}).then((res) => this.setState({ data: res.data }))
+		Axios.get('http://localhost:3001/corsi/' + id, {
+			headers: { Authorization: 'Bearer ' + token }
+		})
+			.then((res) => this.setState({ data: res.data }))
+			.catch((err) => console.log(err))
 	}
+
 	getStudenti() {
-		Axios.get('http://localhost:3001/studenti', {})
+		const token = this.props.token
+		Axios.get('http://localhost:3001/studenti', {
+			headers: { Authorization: 'Bearer ' + token }
+		})
 			.then((res) => this.setState({ studenti: res.data }))
 			.catch((err) => console.log(err))
 	}
@@ -90,6 +100,7 @@ class Professore extends React.Component {
 	}
 
 	handleInserisciVoto = () => {
+		debugger
 		if (this.state.selectedCorso && this.state.selectedStud && this.state.voto && this.state.giorno) {
 			this.setState({ loading: true })
 			this.postVoto()
@@ -97,10 +108,12 @@ class Professore extends React.Component {
 	}
 
 	handleSubmit = (e) => {
+		debugger
 		e.preventDefault()
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
 				console.log('Received values of form: ', values)
+				this.handleInserisciVoto()
 			}
 		})
 	}
@@ -218,7 +231,7 @@ class Professore extends React.Component {
 					</Form.Item>
 
 					<Form.Item {...tailFormItemLayout}>
-						<Button type="primary" htmlType="submit" onClick={this.handleInserisciVoto}>
+						<Button type="primary" htmlType="submit">
 							Inserisci Voto
 						</Button>
 					</Form.Item>

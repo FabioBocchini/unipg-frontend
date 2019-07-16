@@ -54,7 +54,7 @@ class ContentComponent extends React.Component {
 							<Breadcrumb.Item>Riepilogo Voti</Breadcrumb.Item>
 						</Breadcrumb>
 						<div style={{ background: '#fff', padding: 24, minHeight: 380 }}>
-							<Studente utente={this.props.utente} />
+							<Studente utente={this.props.utente} token={this.props.token} />
 						</div>
 					</Content>
 				</Layout>
@@ -68,7 +68,7 @@ class ContentComponent extends React.Component {
 							<Breadcrumb.Item>Aggiunta Voti</Breadcrumb.Item>
 						</Breadcrumb>
 						<div style={{ background: '#fff', padding: 24, minHeight: 380 }}>
-							<Professore utente={this.props.utente} />
+							<Professore utente={this.props.utente} token={this.props.token} />
 						</div>
 					</Content>
 				</Layout>

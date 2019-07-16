@@ -21,7 +21,7 @@ class LoginComponent extends Component {
 	checkLoginInfoStudente(email, password) {
 		Axios.post('http://localhost:3001/studenti/login', { email, password })
 			.then((res) => {
-				this.props.onLoginExecuted(res.data, 'studente')
+				this.props.onLoginExecuted(res.data.user, 'studente', res.data.token)
 			})
 			.catch((error) => alert('Email o Password Errata!'))
 	}
@@ -30,7 +30,7 @@ class LoginComponent extends Component {
 		Axios.post('http://localhost:3001/professori/login', { email, password })
 			.then((res) => {
 				console.log(res.data)
-				this.props.onLoginExecuted(res.data, 'professore')
+				this.props.onLoginExecuted(res.data.user, 'professore', res.data.token)
 			})
 			.catch((error) => alert('Email o Password Errata!'))
 	}
