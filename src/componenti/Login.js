@@ -41,7 +41,7 @@ class LoginComponent extends Component {
 	}
 
 	handleRegisterClick() {
-		this.props.onLoginExecuted(null, 'register')
+		this.props.onLoginExecuted(null, 'register', null)
 	}
 
 	render() {

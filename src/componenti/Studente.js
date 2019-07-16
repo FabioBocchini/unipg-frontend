@@ -1,8 +1,7 @@
 import React from 'react'
-import { Table, Divider } from 'antd'
+import { Table, Divider, Button } from 'antd'
 import Axios from 'axios'
 import moment from 'moment'
-import { Button } from 'antd'
 
 const { Column } = Table
 
@@ -22,7 +21,8 @@ class Studente extends React.Component {
 	// prendo dal database la lista degli esami della matricola che ha effettuato il login
 	getEsami() {
 		const { matricola } = this.props.utente
-		Axios.get('http://localhost:3001/studenti/esami/' + matricola)
+
+		Axios.get('http://localhost:3001/studenti/esami/' + matricola, {})
 			.then((res) => this.setState({ data: res.data }))
 			.catch((err) => console.log(err))
 	}
@@ -41,7 +41,7 @@ class Studente extends React.Component {
 	// rifiuto l'esame e quindi elimino la riga dal database
 	rifiutaEsame(corso) {
 		const { matricola } = this.props.utente
-		Axios.delete('http://localhost:3001/studenti/esami/' + corso + '/' + matricola)
+		Axios.delete('http://localhost:3001/studenti/esami/' + corso + '/' + matricola, {})
 			.then((res) => this.getEsami())
 			.catch((err) => console.log(err))
 	}
@@ -64,7 +64,8 @@ class Studente extends React.Component {
 		const data = this.state.data.map((item) => ({
 			...item,
 			dataesametext: moment(item.dataesame).format('DD/MM/YYYY'),
-			professore: item.cognome + ' ' + item.nome
+			professore: item.cognome + ' ' + item.nome,
+			key: item.id_corso
 		}))
 
 		return (

@@ -36,10 +36,14 @@ class Professore extends React.Component {
 		const voto = this.state.voto
 		const giorno = this.state.giorno
 
-		Axios.post('http://localhost:3001/esami/nuovo', { corso, matricola, voto, giorno })
+		Axios.post('http://localhost:3001/esami/nuovo', {
+			corso,
+			matricola,
+			voto,
+			giorno
+		})
 			.then((res) => {
 				alert('Voto inserito con successo!')
-				this.setState({ selectedStud: null })
 			})
 			.catch((err) => {
 				console.log(err)
@@ -53,10 +57,10 @@ class Professore extends React.Component {
 	// cerco la lista degli esami e degli studenti nel database per mostrarli nei menù
 	getEsami() {
 		const { id } = this.props.utente
-		Axios.get('http://localhost:3001/corsi/' + id).then((res) => this.setState({ data: res.data }))
+		Axios.get('http://localhost:3001/corsi/' + id, {}).then((res) => this.setState({ data: res.data }))
 	}
 	getStudenti() {
-		Axios.get('http://localhost:3001/studenti')
+		Axios.get('http://localhost:3001/studenti', {})
 			.then((res) => this.setState({ studenti: res.data }))
 			.catch((err) => console.log(err))
 	}
