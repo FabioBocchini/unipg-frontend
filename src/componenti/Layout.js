@@ -17,6 +17,8 @@ class LayoutComponent extends React.Component {
 		}
 		this.onLoginExecuted = this.onLoginExecuted.bind(this)
 		this.onHomeClick = this.onHomeClick.bind(this)
+		this.onBibliotecaClick = this.onBibliotecaClick.bind(this)
+		this.onSegreteriaClick = this.onSegreteriaClick.bind(this)
 	}
 
 	onLoginExecuted(utente, stato, token) {
@@ -27,10 +29,23 @@ class LayoutComponent extends React.Component {
 		this.setState({ stato: 'login' })
 	}
 
+	onBibliotecaClick() {
+		this.setState({ stato: 'biblioteca' })
+	}
+
+	onSegreteriaClick() {
+		this.setState({ stato: 'segreteria' })
+	}
+
 	render() {
 		return (
 			<Layout style={{ height: '100vh' }}>
-				<Header onHomeClick={this.onHomeClick} utente={this.state.utente} />
+				<Header
+					onHomeClick={this.onHomeClick}
+					utente={this.state.utente}
+					onBibliotecaClick={this.onBibliotecaClick}
+					onSegreteriaClick={this.onSegreteriaClick}
+				/>
 				<Content
 					onLoginExecuted={this.onLoginExecuted}
 					stato={this.state.stato}

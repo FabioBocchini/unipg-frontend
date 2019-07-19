@@ -19,6 +19,7 @@ class LoginComponent extends Component {
 
 	// controllo se l' email è presente nel database e se la password coincide
 	checkLoginInfoStudente(email, password) {
+		debugger
 		Axios.post('http://localhost:3001/studenti/login', { email, password })
 			.then((res) => {
 				this.props.onLoginExecuted(res.data.user, 'studente', res.data.token)

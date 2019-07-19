@@ -21,11 +21,9 @@ class ContentComponent extends React.Component {
 							<Breadcrumb.Item>Login</Breadcrumb.Item>
 						</Breadcrumb>
 						<div style={{ background: '#fff', padding: 24, minHeight: 380 }}>
-							<div style={{ float: 'left', margin: '2%' }}>
+							<div class="log" style={{ margin: '2%' }}>
 								<Login onLoginExecuted={this.props.onLoginExecuted} />
-							</div>
-							<div style={{ width: '25%', marginRight: '20pt', float: 'right' }}>
-								<img src={logo} alt="" style={{ width: '100%', float: 'right' }} />
+								<img class="logo" src={logo} alt="" style={{ width: '15%' }} />
 							</div>
 						</div>
 					</Content>
@@ -69,6 +67,101 @@ class ContentComponent extends React.Component {
 						</Breadcrumb>
 						<div style={{ background: '#fff', padding: 24, minHeight: 380 }}>
 							<Professore utente={this.props.utente} token={this.props.token} />
+						</div>
+					</Content>
+				</Layout>
+			)
+		} else if (this.props.stato === 'segreteria') {
+			return (
+				<Layout>
+					<Content style={{ padding: '0 50px', marginTop: 64 }}>
+						<Breadcrumb style={{ margin: '16px 0' }}>
+							<Breadcrumb.Item>UniPG</Breadcrumb.Item>
+							<Breadcrumb.Item>Segreteria</Breadcrumb.Item>
+						</Breadcrumb>
+						<div style={{ background: '#fff', padding: 24, minHeight: 5 }}>
+							<form class="info">
+								<div style={{ background: '#fff', padding: 24, minHeight: 5 }}>
+									<h1>
+										<b>Informazioni Segreteria:</b> Dipartimento di matematica e informatica
+									</h1>
+								</div>
+
+								<div style={{ background: '#fff', padding: 24, minHeight: 5 }}>
+									<h4>
+										<b>-Indirizzo:</b> Via L. Vanvitelli, 1 06123 Perugia{' '}
+									</h4>
+								</div>
+
+								<div style={{ background: '#fff', padding: 24, minHeight: 5 }}>
+									<h4>
+										<b>-Ufficio:</b> IV Piano{' '}
+									</h4>
+								</div>
+
+								<div style={{ background: '#fff', padding: 24, minHeight: 5 }}>
+									<h4>
+										<b>-Tel:</b> 075 585 5071
+									</h4>
+								</div>
+
+								<div style={{ background: '#fff', padding: 24, minHeight: 5 }}>
+									<h4>
+										<b>-Fax:</b> 075 585 5024
+									</h4>
+								</div>
+
+								<div style={{ background: '#fff', padding: 24, minHeight: 5 }}>
+									<h4>
+										<b>-Email:</b>{' '}
+										<a href="segr-didattica.mat.dmi@unipg.it"> segr-didattica.mat.dmi@unipg.it </a>
+									</h4>
+								</div>
+							</form>
+						</div>
+					</Content>
+				</Layout>
+			)
+		} else if (this.props.stato === 'biblioteca') {
+			return (
+				<Layout>
+					<Content style={{ padding: '0 50px', marginTop: 64 }}>
+						<Breadcrumb style={{ margin: '16px 0' }}>
+							<Breadcrumb.Item>UniPG</Breadcrumb.Item>
+							<Breadcrumb.Item>Biblioteca</Breadcrumb.Item>
+						</Breadcrumb>
+						<div style={{ background: '#fff', padding: 24, minHeight: 5 }}>
+							<form class="info">
+								<div style={{ background: '#fff', padding: 24, minHeight: 5 }}>
+									<h1>
+										<b>Informazioni Biblioteca:</b> Dipartimento di matematica e informatica
+									</h1>
+								</div>
+
+								<div style={{ background: '#fff', padding: 24, minHeight: 5 }}>
+									<h4>
+										<b>-Indirizzo:</b> Via L. Vanvitelli, 1 06123 Perugia{' '}
+									</h4>
+								</div>
+
+								<div style={{ background: '#fff', padding: 24, minHeight: 5 }}>
+									<h4>
+										<b>-Ufficio:</b> IV Piano{' '}
+									</h4>
+								</div>
+
+								<div style={{ background: '#fff', padding: 24, minHeight: 5 }}>
+									<h4>
+										<b>-Tel:</b> 075.585.5026/5027
+									</h4>
+								</div>
+
+								<div style={{ background: '#fff', padding: 24, minHeight: 5 }}>
+									<h4>
+										<b>-Fax:</b> 075.585.5965
+									</h4>
+								</div>
+							</form>
 						</div>
 					</Content>
 				</Layout>

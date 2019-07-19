@@ -10,15 +10,72 @@ div.logo {
 }
 
 div.title {
+	position: relative;
 	float: left;
+	margin-left: 30px;
 	color: white;
-	font-size: 15pt;
+	font-size: 20pt;
+}
+
+div.title:after {
+	clear: both;
+	height: 0;
+	width: 100%;
+	content: '';
+	display: block;
+}
+
+div.info {
+	display: block;
+	text-align: center;
+}
+
+div.log {
+	display: block;
+	text-align: center;
 }
 
 form.login-form {
-	max-width: 300px;
+	position: relative;
+	margin-left: 20%;
+	width: auto;
+	display: inline-block;
+
+	text-align: left;
+}
+
+form.info {
+	position: relative;
+	margin-left: 500px;
+	width: auto;
+	display: inline-block;
+
+	text-align: left;
+}
+
+img.logo {
+	position: relative;
+	margin-right: 10%;
+	float: right;
+}
+
+img.logo:after {
+	clear: both;
+	height: 0;
+	width: 100%;
+	content: '';
+	display: block;
 }
 
 button.login-form-button {
 	width: 100%;
+}
+
+.ant-menu-horizontal > .ant-menu-item {
+	font-size: 13pt;
+	color: white;
+}
+
+.ant-menu-horizontal > .ant-menu-item:hover {
+	background-color: #911c13;
 }
